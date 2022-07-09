@@ -85,7 +85,7 @@ class App extends Component {
               images={images}
               onGetLargeImageUrl={this.handleGetLargeImageUrl}
             />
-            {images.length < totalImages && !showLoader && (
+            {images.length < totalImages && (
               <Button onClick={this.handleLoadMore} />
             )}
 
