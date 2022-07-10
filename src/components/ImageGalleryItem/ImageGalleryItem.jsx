@@ -1,8 +1,8 @@
 import { Item, Img } from './ImageGalleryItem.styled';
 
-const ImageGalleryItem = ({ smallUrl, alt, onGetLargeImageUrl }) => {
+const ImageGalleryItem = ({ smallUrl, alt, onGetLargeImageUrlAndTags }) => {
   return (
-    <Item onClick={onGetLargeImageUrl}>
+    <Item onClick={onGetLargeImageUrlAndTags}>
       <Img src={smallUrl} alt={alt} width="300" />
     </Item>
   );

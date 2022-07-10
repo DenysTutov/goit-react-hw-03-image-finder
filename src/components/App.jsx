@@ -4,6 +4,8 @@ import Searchbar from './Searchbar';
 import ImageGallery from './ImageGallery';
 import Button from './Button';
 import Loader from './Loader';
+import Modal from './Modal';
+import Notification from './Notification';
 import imagesFetch from './services/imagesApi';
 
 let totalImages = 0;
@@ -14,10 +16,8 @@ class App extends Component {
     images: [],
     page: 1,
     showLoader: false,
-    largeImageUrl: '',
+    largeImageUrlAndTags: null,
   };
-
-  componentDidMount() {}
 
   async componentDidUpdate(prevProps, prevState) {
     if (
@@ -33,9 +33,9 @@ class App extends Component {
             images: [...state.images, ...dataImages.hits],
             showLoader: false,
           }));
-        }, 1000);
+        }, 500);
       } catch (error) {
-        console.log(error);
+        console.log(error => ({ error, showLoader: false }));
       }
     }
   }
@@ -50,7 +50,6 @@ class App extends Component {
       images: [],
       page: 1,
       showLoader: true,
-      largeImageUrl: '',
     });
 
     window.scrollTo({
@@ -66,33 +65,51 @@ class App extends Component {
     }));
   };
 
-  handleGetLargeImageUrl = newLargeImageUrl => {
-    this.setState({ largeImageUrl: newLargeImageUrl });
+  handleGetLargeImageUrlAndTags = newImageUrlAndTags => {
+    this.setState({ largeImageUrlAndTags: newImageUrlAndTags });
+  };
+
+  handleModalClose = () => {
+    this.setState({ largeImageUrlAndTags: null });
   };
 
   render() {
-    const { images, showLoader } = this.state;
+    const { images, showLoader, largeImageUrlAndTags } = this.state;
 
     return (
       <>
         <Searchbar onSubmit={this.handleSubmitSearch} />
 
-        {images.length === 0 && !showLoader && <p>Please Enter search query</p>}
+        {images.length === 0 && !showLoader && (
+          <Notification eventColor="red">
+            Please Enter search query
+          </Notification>
+        )}
 
         {images.length > 0 && (
           <>
             <ImageGallery
               images={images}
-              onGetLargeImageUrl={this.handleGetLargeImageUrl}
+              onGetLargeImageUrlAndTags={this.handleGetLargeImageUrlAndTags}
             />
             {images.length < totalImages && (
               <Button onClick={this.handleLoadMore} />
             )}
 
-            {images.length >= totalImages && <p>The images are end!</p>}
+            {images.length >= totalImages && (
+              <Notification>The images are end!</Notification>
+            )}
           </>
         )}
+
         {showLoader && <Loader />}
+
+        {largeImageUrlAndTags && (
+          <Modal
+            onClose={this.handleModalClose}
+            largeImage={largeImageUrlAndTags}
+          />
+        )}
       </>
     );
   }

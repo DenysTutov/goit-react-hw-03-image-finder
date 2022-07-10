@@ -1,7 +1,7 @@
 import ImageGalleryItem from 'components/ImageGalleryItem';
 import { List } from './ImageGallery.styled';
 
-const ImageGallery = ({ images, onGetLargeImageUrl }) => {
+const ImageGallery = ({ images, onGetLargeImageUrlAndTags }) => {
   return (
     <>
       <List>
@@ -11,7 +11,12 @@ const ImageGallery = ({ images, onGetLargeImageUrl }) => {
               key={id}
               smallUrl={webformatURL}
               alt={tags}
-              onGetLargeImageUrl={() => onGetLargeImageUrl(largeImageURL)}
+              onGetLargeImageUrlAndTags={() =>
+                onGetLargeImageUrlAndTags({
+                  largeUrl: largeImageURL,
+                  alt: tags,
+                })
+              }
             />
           );
         })}
