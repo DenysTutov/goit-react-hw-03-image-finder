@@ -7,7 +7,6 @@ export const Wrapper = styled.div`
   text-align: center;
   text-transform: uppercase;
   color: ${props => {
-    console.log(props.eventColor);
     if (props.eventColor === 'red') {
       return 'red';
     }

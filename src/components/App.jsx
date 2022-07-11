@@ -8,7 +8,7 @@ import Modal from './Modal';
 import Notification from './Notification';
 import imagesFetch from './services/imagesApi';
 
-let totalImages = 0;
+let totalImages = null;
 
 class App extends Component {
   state = {
@@ -52,10 +52,7 @@ class App extends Component {
       showLoader: true,
     });
 
-    window.scrollTo({
-      top: 0,
-      left: 0,
-    });
+    window.scrollTo({ top: 0, left: 0 });
   };
 
   handleLoadMore = () => {
@@ -80,9 +77,13 @@ class App extends Component {
       <>
         <Searchbar onSubmit={this.handleSubmitSearch} />
 
-        {images.length === 0 && !showLoader && (
+        {totalImages === null && !showLoader && (
+          <Notification>Please Enter search query</Notification>
+        )}
+
+        {totalImages === 0 && (
           <Notification eventColor="red">
-            Please Enter search query
+            Enter something normal :)
           </Notification>
         )}
 
@@ -106,7 +107,7 @@ class App extends Component {
 
         {largeImageUrlAndTags && (
           <Modal
-            onClose={this.handleModalClose}
+            onModalClose={this.handleModalClose}
             largeImage={largeImageUrlAndTags}
           />
         )}

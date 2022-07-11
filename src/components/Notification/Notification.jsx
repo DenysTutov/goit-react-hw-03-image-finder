@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Wrapper } from './Notification.styled';
 
 const Notification = ({ eventColor = 'black', children }) => {
@@ -5,3 +6,8 @@ const Notification = ({ eventColor = 'black', children }) => {
 };
 
 export default Notification;
+
+Notification.propTypes = {
+  eventColor: PropTypes.string,
+  children: PropTypes.node.isRequired,
+};

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import ImageGalleryItem from 'components/ImageGalleryItem';
 import { List } from './ImageGallery.styled';
 
@@ -11,12 +12,8 @@ const ImageGallery = ({ images, onGetLargeImageUrlAndTags }) => {
               key={id}
               smallUrl={webformatURL}
               alt={tags}
-              onGetLargeImageUrlAndTags={() =>
-                onGetLargeImageUrlAndTags({
-                  largeUrl: largeImageURL,
-                  alt: tags,
-                })
-              }
+              onGetLargeImageUrlAndTags={onGetLargeImageUrlAndTags}
+              largeUrl={largeImageURL}
             />
           );
         })}
@@ -26,3 +23,9 @@ const ImageGallery = ({ images, onGetLargeImageUrlAndTags }) => {
 };
 
 export default ImageGallery;
+
+ImageGallery.propTypes = {
+  images: PropTypes.arrayOf(
+    PropTypes.shape({ id: PropTypes.number.isRequired })
+  ).isRequired,
+};

@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { GoSearch } from 'react-icons/go';
+import PropTypes from 'prop-types';
 import {
   Header,
   Form,
@@ -50,3 +51,5 @@ class Searchbar extends Component {
 }
 
 export default Searchbar;
+
+Searchbar.propTypes = { onSubmit: PropTypes.func.isRequired };
