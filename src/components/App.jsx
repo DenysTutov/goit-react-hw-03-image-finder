@@ -6,9 +6,7 @@ import Button from './Button';
 import Loader from './Loader';
 import Modal from './Modal';
 import Notification from './Notification';
-import imagesFetch from './services/imagesApi';
-
-let totalImages = null;
+import imagesFetch from '../services/imagesApi';
 
 class App extends Component {
   state = {
@@ -17,6 +15,7 @@ class App extends Component {
     page: 1,
     showLoader: false,
     largeImageUrlAndTags: null,
+    totalImages: null,
   };
 
   async componentDidUpdate(prevProps, prevState) {
@@ -26,12 +25,12 @@ class App extends Component {
     ) {
       try {
         const dataImages = await imagesFetch(this.state.query, this.state.page);
-        totalImages = dataImages.totalHits;
 
         setTimeout(() => {
           this.setState(state => ({
             images: [...state.images, ...dataImages.hits],
             showLoader: false,
+            totalImages: dataImages.totalHits,
           }));
         }, 500);
       } catch (error) {
@@ -71,7 +70,8 @@ class App extends Component {
   };
 
   render() {
-    const { images, showLoader, largeImageUrlAndTags } = this.state;
+    const { images, showLoader, largeImageUrlAndTags, totalImages } =
+      this.state;
 
     return (
       <>
